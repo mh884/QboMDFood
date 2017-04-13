@@ -1,0 +1,52 @@
+﻿@model QboMdFood.Models.API.Response
+@{
+    ViewBag.Title = "Sales Records";
+}
+
+<table class="table table-responsive" border="1">
+
+    <tr>
+        @if (Model.Sales.Record.Count > 0)
+        {
+            <th>
+                @Html.Label("Invoice number")
+
+            </th>
+            <th>
+                @Html.Label("Invoice Date")
+            </th>
+            <th>
+                @Html.Label("Customer ID")
+            </th>
+            <th>
+                @Html.Label("Cusotmer Name")
+            </th>
+
+            <th>
+                @Html.Label("Amount")
+
+            </th>
+            <th>
+                @Html.Label("Tax")
+            </th>
+            <td></td>
+
+        }
+    </tr>
+    <tbody>
+    @foreach (var item in Model.Sales.Record)
+    {
+        <tr>
+            <td><label>@item.Invoice_number</label></td>
+            <td><label>@item.Invoice_date</label></td>
+            <td><label>@item.Customer_id</label></td>
+            <td><label>@item.Customer_name</label></td>
+            <td><label>@item.Amount</label></td>
+            <td><label>@item.Gst_amount</label></td>
+
+        </tr>
+
+    }
+
+    </tbody>
+</table>

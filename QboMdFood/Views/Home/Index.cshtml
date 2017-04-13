@@ -1,0 +1,57 @@
+﻿@model QboMdFood.Models.Multiplemodels
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Settings";
+    bool isConnected = Model.OAuthorizationModel.IsConnected;
+    string OauthGrant = Request.Url?.GetLeftPart(UriPartial.Authority) + "/" + "Oauth";
+}
+
+<script type="text/javascript" src="https://js.appcenter.intuit.com/Content/IA/intuit.ipp.anywhere-1.3.5.js"></script>
+@Styles.Render("~/Content/app.css")
+@*@Scripts.Render("~/Scripts/jquery-1.10.2.min.js")*@
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+@if (!isConnected)
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            intuit.ipp.anywhere.setup({
+                grantUrl: '@OauthGrant',
+                datasources: {
+                    quickbooks: true,
+                    payments: false
+                }
+            });
+
+
+        });
+    </script>
+}
+else
+{
+
+    <h2>Conntected</h2>
+}
+<div ng-class="row">
+    <h2>Step 1: Set up your app</h2>
+</div>
+<div ng-class="row" class="voffset4">
+
+    <h4>
+    a. Connect To QuickBooks Online</h3>
+    @if (!isConnected)
+    {
+        <div id="connect-to-qbo-div">
+            <p>Your app is not connected to QuickBooks Online.</p>
+            <ipp:connecttointuit></ipp:connecttointuit>
+        </div>
+    }
+    else
+    {
+        <div id="disconnect-from-qbo-div">
+            <p>Your app is connected to QuickBooks Online.</p>
+        </div>
+    }
+</div>
