@@ -1,52 +1,33 @@
-﻿@model QboMdFood.Models.API.Response
+﻿@model QboMdFood.Models.Multiplemodels
 @{
     ViewBag.Title = "Sales Records";
+    bool isConnected = Model.OAuthorizationModel.IsConnected;
+    var counter = Model.SalesItems.Sales.Record.Count();
+    var taxRate = Model.taxtoobj.Count();
 }
 
-<table class="table table-responsive" border="1">
+<div class="container">
+    
+    <div class="row">
+        
+        <div class="col-lg-12 form-group">
+            
 
-    <tr>
-        @if (Model.Sales.Record.Count > 0)
-        {
-            <th>
-                @Html.Label("Invoice number")
+                <h3>Customer Sales Records <spam class="@(counter > 0 ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-remove-sign")">     </spam></h3>
+       
 
-            </th>
-            <th>
-                @Html.Label("Invoice Date")
-            </th>
-            <th>
-                @Html.Label("Customer ID")
-            </th>
-            <th>
-                @Html.Label("Cusotmer Name")
-            </th>
+            </div>
 
-            <th>
-                @Html.Label("Amount")
+    </div>
+    <div class="row">
+        
+        <div class="col-lg-12 form-group">
+            
 
-            </th>
-            <th>
-                @Html.Label("Tax")
-            </th>
-            <td></td>
+                <h3>Tax Rate <spam class="@(taxRate > 0 ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-remove-sign")"> </spam></h3>
+           
 
-        }
-    </tr>
-    <tbody>
-    @foreach (var item in Model.Sales.Record)
-    {
-        <tr>
-            <td><label>@item.Invoice_number</label></td>
-            <td><label>@item.Invoice_date</label></td>
-            <td><label>@item.Customer_id</label></td>
-            <td><label>@item.Customer_name</label></td>
-            <td><label>@item.Amount</label></td>
-            <td><label>@item.Gst_amount</label></td>
+        </div>
 
-        </tr>
-
-    }
-
-    </tbody>
-</table>
+    </div>
+</div>

@@ -220,11 +220,19 @@
     <Compile Include="Models\API\Record.cs" />
     <Compile Include="Models\API\Response.cs" />
     <Compile Include="Models\API\Sales.cs" />
+    <Compile Include="Models\DTO\CustomerTo.cs" />
     <Compile Include="Models\DTO\OAuthorizationdto.cs" />
+    <Compile Include="Models\DTO\Taxto.cs" />
+    <Compile Include="Models\Helper\Helper.cs" />
     <Compile Include="Models\Multiplemodels.cs" />
+    <Compile Include="Models\Repository\CustomerRepository.cs" />
     <Compile Include="Models\Repository\OAuthRepository.cs" />
+    <Compile Include="Models\Repository\TaxRepository.cs" />
+    <Compile Include="Models\Service\CustomerService.cs" />
+    <Compile Include="Models\Service\DataserviceFactory.cs" />
     <Compile Include="Models\Service\OAuthService.cs" />
     <Compile Include="Models\Service\SalesRequest.cs" />
+    <Compile Include="Models\Service\TaxService.cs" />
     <Compile Include="Models\Utility\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 70px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/*Bootstrap custom*/
+
+.glyphicon-remove-sign{color:rgb(243, 80, 64)}
+.glyphicon-ok-sign{color:#6acd61}
