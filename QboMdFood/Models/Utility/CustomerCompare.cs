@@ -3,7 +3,7 @@ using QboMdFood.Models.API;
 
 namespace QboMdFood.Models.Utility
 {
-    public class CustomerComparer : IEqualityComparer<Record>
+    public class CustomerCompare : IEqualityComparer<Record>
     {
         public int GetHashCode(Record co)
         {

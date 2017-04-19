@@ -1,21 +1,64 @@
 ﻿@model QboMdFood.Models.Multiplemodels
 @{
     ViewBag.Title = "Sales Records";
-    bool isConnected = Model.OAuthorizationModel.IsConnected;
-    var counter = Model.CustomersObj.Item1.Count();
+    var isConnected = Model.OAuthorizationModel.IsConnected;
+    var customerObj = Model.CustomersObj?.Item1 ;
+    var CustomerCounter = customerObj?.Count() ?? -1 ;
+    var salesrecordinvoice = Model.CustomersObj?.Item2?.Count() ?? -1;
     var taxRate = Model.taxtoobj.Count();
+
 }
 
 <div class="container">
+    
     
     <div class="row">
         
         <div class="col-lg-12 form-group">
             
 
-                <h3>Customers<spam class="@(counter > 0 ? "glyphicon glyphicon-remove-sign" : "glyphicon glyphicon-ok-sign")">     </spam></h3>
+            <h3>Sales invoice Records<spam class="@(salesrecordinvoice > 0 ?  "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-remove-sign")">     </spam></h3>
        
-            @if(counter > 0) {<h6 class="alert alert-danger">Please add @counter Customer in QuickBook online </h6> }
+            @if(CustomerCounter == 0) {<h6 class="alert alert-danger">No Records found</h6> }
+            @if(CustomerCounter == -1) {<h6 class="alert alert-danger">Please check API Address</h6> }
+        </div>
+
+    </div>
+    <div class="row">
+        
+        <div class="col-lg-12 form-group">
+            
+
+                <h3>Customers<spam class="@(CustomerCounter > 0 ? "glyphicon glyphicon-remove-sign" : "glyphicon glyphicon-ok-sign")">     </spam></h3>
+       
+            @if (CustomerCounter > 0)
+            {
+                <h6 class="alert alert-danger">Please add @CustomerCounter Customer in QuickBook online </h6> 
+                
+                <div class="outCustomer" style="height: 300px; overflow-scrolling: auto; overflow:auto">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var product in customerObj)
+                        {
+                            <tr>
+                                <td>@product.Customer_Id</td>
+                                <td>@product.Customer_name</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    
+
+                </div>
+
+
+            }
             </div>
 
     </div>

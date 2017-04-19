@@ -233,8 +233,8 @@
     <Compile Include="Models\Service\OAuthService.cs" />
     <Compile Include="Models\Service\SalesRequest.cs" />
     <Compile Include="Models\Service\TaxService.cs" />
-    <Compile Include="Models\Utility\CustomerComparer.cs" />
-    <Compile Include="Models\Utility\InvoiceNumberComparer.cs" />
+    <Compile Include="Models\Utility\CustomerCompare.cs" />
+    <Compile Include="Models\Utility\InvoiceNumberCompare.cs" />
     <Compile Include="Models\Utility\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

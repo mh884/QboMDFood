@@ -35,49 +35,49 @@ namespace QboMdFood.Models.Service
         {
             SalesRequest sales = new SalesRequest();
 
-            var salesItem = sales.GetCall().Sales.Record;
-
-            IEnumerable<Record> NewSalesItem = new List<Record>();
+            var salesItemFromApi = sales.GetCall()?.Sales?.Record;
+            if (salesItemFromApi == null) return new Tuple<IEnumerable<CustomerTo>, IEnumerable<Record>>(null, null);
+            IEnumerable<Record> newSalesItem;
+            IEnumerable<Record> SalesItem = new List<Record>();
             var qboCustomer = from c in GetCustomer()
                               select new { id = c.Id, name = c.FullyQualifiedName, CodeId = c.AlternatePhone?.FreeFormNumber ?? "N/A" };
 
             foreach (var customerItem in qboCustomer.Where(a => a.CodeId != "N/A"))
             {
-                if (customerItem.CodeId != "N/A")
-                {
-                    NewSalesItem = from a in salesItem
-                                   where a.Customer_id == customerItem.CodeId
-                                   select new Record()
-                                   {
-                                       Customer_id = customerItem.id,
-                                       CheckUserExsits = true,
-                                       Invoice_date = a.Invoice_date,
-                                       Gst_amount = a.Gst_amount,
-                                       Amount = a.Amount,
-                                       Invoice_number = a.Invoice_number,
-                                       Customer_name = customerItem.name
-                                   };
+                if (customerItem.CodeId == "N/A") continue;
+                //Create list with QBO CustomerID and change CheckUserExsits to true
+                newSalesItem = new List<Record>(from a in salesItemFromApi
+                                                where a.Customer_id == customerItem.CodeId
+                                                select new Record()
+                                                {
+                                                    Customer_id = customerItem.id,
+                                                    CheckUserExsits = true,
+                                                    Invoice_date = a.Invoice_date,
+                                                    Gst_amount = a.Gst_amount,
+                                                    Amount = a.Amount,
+                                                    Invoice_number = a.Invoice_number,
+                                                    Customer_name = customerItem.name
+                                                });
 
-                }
-
+                SalesItem = SalesItem.Concat(newSalesItem);
             }
-            var exceptNewSalesItem = salesItem.Except(NewSalesItem, new InvoiceNumberComparer()).ToList();
+            //remove all item that match Invoice Number in SalesItem
+            var exceptNewSalesItem = salesItemFromApi.Except(SalesItem, new InvoiceNumberCompare()).ToList();
 
-            var userNotExsit = salesItem.Except(NewSalesItem, new CustomerComparer())
-                .Select(a =>
-            new CustomerTo()
-            {
-                Customer_Id = a.Customer_id,
-                Customer_name = a.Customer_name
-            });
+            //Create Customer list with unregistered users free duplication
+            var userNotExsit = exceptNewSalesItem
+                .GroupBy(a => new { a.Customer_id, a.Customer_name }).Select(q => q.First()).Select(a => new CustomerTo()
+                {
+                    Customer_Id = a.Customer_id,
+                    Customer_name = a.Customer_name
+                });
+            ;
 
-            var finalListResult = NewSalesItem.Concat(exceptNewSalesItem).ToList();
 
-
+            //add all the item from SalesItem to exceptNewSalesItem
+            var finalListResult = SalesItem.Concat(exceptNewSalesItem).ToList();
 
             return new Tuple<IEnumerable<CustomerTo>, IEnumerable<Record>>(userNotExsit, finalListResult);
-
-
         }
     }
 }
