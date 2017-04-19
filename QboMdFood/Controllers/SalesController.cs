@@ -1,6 +1,8 @@
-﻿using Intuit.Ipp.Data;
+﻿using System;
+using Intuit.Ipp.Data;
 using QboMdFood.Models.Service;
 using System.Collections.Generic;
+using System.Threading;
 using System.Web.Mvc;
 using Intuit.Ipp.Core;
 using QboMdFood.Models;
@@ -18,28 +20,31 @@ namespace QboMdFood.Controllers
         // GET: Sales
         public ActionResult SalesRecord()
         {
-            SalesRequest sales = new SalesRequest();
+            // SalesRequest sales = new SalesRequest();
 
 
-            multiplemodels = new Multiplemodels();
-            multiplemodels.taxtoobj = new List<TaxCode>();
-            multiplemodels.CustomersObj = new List<Customer>();
-            multiplemodels.OAuthorizationModel = new OAuthorizationdto();
-            multiplemodels.SalesItems = new Response();
+            multiplemodels = new Multiplemodels
+            {
+                taxtoobj = new List<TaxCode>(),
+                CustomersObj = new Tuple<IEnumerable<CustomerTo>, IEnumerable<Record>>(null, null),
+                OAuthorizationModel = new OAuthorizationdto()
+            };
+
             var oAuthModel = new OAuthService(multiplemodels.OAuthorizationModel).IsTokenAvailable(this);
 
+            var taxObj = new TaxService(oAuthModel);
             if (oAuthModel.IsConnected)
             {
 
                 multiplemodels.OAuthorizationModel = oAuthModel;
 
                 multiplemodels.IsConnected = oAuthModel.IsConnected;
-                var taxObj = new TaxService(oAuthModel);
                 var customerobj = new CustomerService(oAuthModel);
                 multiplemodels.taxtoobj = taxObj.GeTaxCodes();
-                multiplemodels.CustomersObj = customerobj.GetCustomer();
-                var d = customerobj.MatchCustomerWithApi();
-                multiplemodels.SalesItems = sales.GetCall();
+                multiplemodels.CustomersObj = customerobj.MatchCustomerWithApi();
+
+                //  multiplemodels.SalesItems = sales.GetCall();
+
 
                 return View(multiplemodels);
             }

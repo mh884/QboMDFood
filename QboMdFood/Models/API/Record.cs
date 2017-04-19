@@ -17,6 +17,8 @@ namespace QboMdFood.Models.API
         public string Invoice_date { get; set; }
         [XmlElement(ElementName = "invoice_number")]
         public string Invoice_number { get; set; }
+
+        public bool CheckUserExsits { get; set; } = false;
     }
 
 

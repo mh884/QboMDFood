@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Sales Records";
     bool isConnected = Model.OAuthorizationModel.IsConnected;
-    var counter = Model.SalesItems.Sales.Record.Count();
+    var counter = Model.CustomersObj.Item1.Count();
     var taxRate = Model.taxtoobj.Count();
 }
 
@@ -13,9 +13,9 @@
         <div class="col-lg-12 form-group">
             
 
-                <h3>Customer Sales Records <spam class="@(counter > 0 ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-remove-sign")">     </spam></h3>
+                <h3>Customers<spam class="@(counter > 0 ? "glyphicon glyphicon-remove-sign" : "glyphicon glyphicon-ok-sign")">     </spam></h3>
        
-
+            @if(counter > 0) {<h6 class="alert alert-danger">Please add @counter Customer in QuickBook online </h6> }
             </div>
 
     </div>

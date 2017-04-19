@@ -14,8 +14,8 @@ namespace QboMdFood.Models
         public OAuthorizationdto OAuthorizationModel { get; set; }
         public bool IsConnected { get; set; }
         public List<TaxCode> taxtoobj { get; set; }
-        public Response SalesItems { get; set; }
 
-        public List<Customer> CustomersObj { get; set; }
+
+        public Tuple<IEnumerable<CustomerTo>, IEnumerable<Record>> CustomersObj { get; set; }
     }
 }
